@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdpi.mapper.DeptMapper">
+    <!-- 查找所有部门-->
+    <select id="selectDeptAll" resultType="Dept">
+    select * from dept
+</select>
+    <insert id="insertDept">
+        insert dept(deptNo,deptName,enabled)values(#{deptNo},#{deptName},#{enabled})
+</insert>
+    <select id="selectByDeptId" resultType="Dept">
+        select * from dept where deptId=#{xxx}
+</select>
+    <update id="updateDept">
+        update dept set deptNo=#{deptNo},deptName=#{deptName},enabled=#{enabled} where deptId=#{deptId}
+</update>
+    <delete id="deleteDept">
+        delete from dept where deptId=#{xxx}
+</delete>
+    <select id="selectDeptByParam" resultType="Dept">
+        select * from dept where deptName=#{xxx}
+</select>
+
+
+</mapper>
