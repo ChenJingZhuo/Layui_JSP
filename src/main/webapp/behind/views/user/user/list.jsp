@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,12 +30,6 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">邮箱</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="email" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
                     <label class="layui-form-label">性别</label>
                     <div class="layui-input-block">
                         <select name="sex">
@@ -55,7 +50,7 @@
         <div class="layui-card-body">
             <div style="padding-bottom: 10px;">
                 <button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
-                <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+                <button class="layui-btn layuiadmin-btn-useradmin" id="add">添加</button>
             </div>
 
             <table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
@@ -63,7 +58,7 @@
                 <img style="display: inline-block; width: 50%; height: 100%;" src={{ d.avatar }}>
             </script>
             <script type="text/html" id="table-useradmin-webuser">
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i
+                <a class="layui-btn layui-btn-normal layui-btn-xs" onclick="edit()"><i
                         class="layui-icon layui-icon-edit"></i>编辑</a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
                         class="layui-icon layui-icon-delete"></i>删除</a>
@@ -129,33 +124,6 @@
                     });
                 });
             }
-            , add: function () {
-                layer.open({
-                    type: 2
-                    , title: '添加用户'
-                    , content: 'userform.html'
-                    , maxmin: true
-                    , area: ['500px', '450px']
-                    , btn: ['确定', '取消']
-                    , yes: function (index, layero) {
-                        var iframeWindow = window['layui-layer-iframe' + index]
-                            , submitID = 'LAY-user-front-submit'
-                            , submit = layero.find('iframe').contents().find('#' + submitID);
-
-                        //监听提交
-                        iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
-                            var field = data.field; //获取提交的字段
-
-                            //提交 Ajax 成功后，静态更新表格中的数据
-                            //$.ajax({});
-                            table.reload('LAY-user-front-submit'); //数据刷新
-                            layer.close(index); //关闭弹层
-                        });
-
-                        submit.trigger('click');
-                    }
-                });
-            }
         };
 
         $('.layui-btn.layuiadmin-btn-useradmin').on('click', function () {
@@ -163,6 +131,69 @@
             active[type] ? active[type].call(this) : '';
         });
     });
+
+    layui.use(['jquery', 'layer'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        $("#add").click(function () {
+            layer.open({
+                type: 2
+                , title: '添加用户'
+                , content: 'userform.jsp'
+                , maxmin: true
+                , area: ['500px', '450px']
+                , btn: ['确定', '取消']
+                , yes: function (index, layero) {
+                    var iframeWindow = window['layui-layer-iframe' + index]
+                        , submitID = 'LAY-user-front-submit'
+                        , submit = layero.find('iframe').contents().find('#' + submitID);
+
+                    //监听提交
+                    iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
+                        var field = data.field; //获取提交的字段
+
+                        //提交 Ajax 成功后，静态更新表格中的数据
+                        //$.ajax({});
+                        table.reload('LAY-user-front-submit'); //数据刷新
+                        layer.close(index); //关闭弹层
+                    });
+
+                    submit.trigger('click');
+                }
+            });
+        });
+
+
+        window.edit = function(){
+            layer.open({
+                type: 2
+                , title: '编辑用户'
+                , content: 'userform.jsp'
+                , maxmin: true
+                , area: ['500px', '450px']
+                , btn: ['确定', '取消']
+                , yes: function (index, layero) {
+                    var iframeWindow = window['layui-layer-iframe' + index]
+                        , submitID = 'LAY-user-front-submit'
+                        , submit = layero.find('iframe').contents().find('#' + submitID);
+
+                    //监听提交
+                    iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
+                        var field = data.field; //获取提交的字段
+
+                        //提交 Ajax 成功后，静态更新表格中的数据
+                        //$.ajax({});
+                        table.reload('LAY-user-front-submit'); //数据刷新
+                        layer.close(index); //关闭弹层
+                    });
+
+                    submit.trigger('click');
+                }
+            });
+        }
+
+    })
+
 </script>
 </body>
 </html>

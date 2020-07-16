@@ -15,6 +15,7 @@
         <property name="username" value="${jdbc.user}"/>
         <property name="password" value="${jdbc.password}"/>
     </bean>
+
     <!--注册属性文件-->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:jdbc.properties"/>
@@ -34,10 +35,10 @@
         <!--注入sqlsessionfactory-->
         <property name="sqlSessionFactoryBeanName" value="mysqlSessionFactory"/>
         <!--指定映射接口-->
-        <property name="basePackage" value="com.gdpi.mapper"/>
+        <property name="basePackage" value="com.cjz.mapper"/>
     </bean>
     <!--注册service,采用组件扫描-->
-    <context:component-scan base-package="com.gdpi.service"/>
+    <context:component-scan base-package="com.cjz.service"/>
 
     <!--配置事务-->
     <!--事务管理器-->
@@ -57,7 +58,7 @@
 
     <!--配置顾问-(顾问=通知+切入点)-->
     <aop:config>
-        <aop:pointcut id="myPointcut" expression="execution(* com.gdpi.service.*.*(..))"/>
+        <aop:pointcut id="myPointcut" expression="execution(* com.cjz.service.*.*(..))"/>
         <aop:advisor advice-ref="myAdvice" pointcut-ref="myPointcut"/>
     </aop:config>
 

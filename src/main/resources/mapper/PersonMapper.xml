@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjz.mapper.PersonMapper">
+    <!-- 查找所有部门-->
+    <select id="selectPersonAll" resultType="Person">
+    select * from person
+</select>
+    <insert id="insertPerson">
+        insert into person(username, password)values(#{username},#{password})
+</insert>
+    <select id="selectByPersonId" resultType="Person">
+        select * from person where personId=#{xxx}
+</select>
+    <update id="updatePerson">
+        update person set personNo=#{personNo},personName=#{personName},enabled=#{enabled} where personId=#{personId}
+</update>
+    <update id="updatePersonPwd">
+        update person set password=#{param1} where username=#{param2}
+    </update>
+    <delete id="deletePerson">
+        delete from person where id=#{xxx}
+</delete>
+    <select id="selectPersonByParam" resultType="Person">
+        select * from person where username=#{xxx}
+</select>
+
+    <select id="findPersonByNameAndPwd" resultType="Person">
+        select * from person where username=#{username} and password=#{password}
+    </select>
+
+    <select id="findPersonByName" resultType="Person">
+        select * from person where username=#{username}
+    </select>
+
+</mapper>

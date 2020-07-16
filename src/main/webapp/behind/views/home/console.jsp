@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,13 +60,14 @@
             , cols: [[
                 {field: 'id', width: 80, title: 'ID', sort: true}
                 , {field: 'username', width: 80, title: '用户名'}
-                , {field: 'sign', width: 80, title: '性别', sort: true}
-                , {field: 'city', width: 80, title: '城市'}
-                , {field: 'birthday', title: '签名', width: '30%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                , {field: 'tel', title: '积分', sort: true}
-                , {field: 'score', title: '评分', sort: true}
-                , {field: 'classify', title: '职业'}
-                , {field: 'wealth', width: 137, title: '财富', sort: true}
+                , {field: 'addtime', width: 80, title: '注册时间', width: '15%', minWidth: 100, sort: true}
+                , {field: 'lasttime', width: 80, title: '最后登录', width: '10%', minWidth: 100,}
+                , {field: 'loginNum', title: '登录次数', width: '20%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                // , {field: 'loginNum', title: '登录次数', width: '30%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                // , {field: 'tel', title: '积分', sort: true}
+                // , {field: 'score', title: '评分', sort: true}
+                // , {field: 'classify', title: '职业'}
+                // , {field: 'wealth', width: 137, title: '财富', sort: true}
             ]]
         });
     });
