@@ -58,18 +58,13 @@
             , url: '${pageContext.request.contextPath}/findAllHistory'
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , page: true
-            , totalRow: true
+            , totalRow: false
             , cols: [[
-                {field: 'id', width: 80, title: 'ID', sort: true}
-                , {field: 'username', width: 80, title: '用户名'}
-                , {field: 'addtime', width: 80, title: '注册时间', width: '15%', minWidth: 100, sort: true}
-                , {field: 'lasttime', width: 80, title: '最后登录', width: '10%', minWidth: 100,}
-                , {field: 'loginNum', title: '登录次数', width: '20%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                // , {field: 'loginNum', title: '登录次数', width: '30%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                // , {field: 'tel', title: '积分', sort: true}
-                // , {field: 'score', title: '评分', sort: true}
-                // , {field: 'classify', title: '职业'}
-                // , {field: 'wealth', width: 137, title: '财富', sort: true}
+                {field: 'id', title: 'ID', sort: true, width: "20%", minWidth: 100, align: 'center'}
+                , {field: 'username', title: '用户名', width: "20%", minWidth: 100, align: 'center'}
+                , {field: 'addtime', title: '注册时间', width: '20%', minWidth: 100, align: 'center', sort: true}
+                , {field: 'lasttime', title: '最后登录', width: '20%', minWidth: 100, align: 'center'}
+                , {field: 'loginNum', title: '登录次数', width: '20%', minWidth: 100, align: 'center'} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
             ]]
         });
     });

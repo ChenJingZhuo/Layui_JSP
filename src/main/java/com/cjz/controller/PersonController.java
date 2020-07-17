@@ -123,9 +123,9 @@ public class PersonController {
         }
     }
 
-    @RequestMapping("/selectPersonAll")
+    @RequestMapping("/findAllPerson")
     @ResponseBody
-    public Object selectPersonAll(){
+    public Object findAllPerson(){
         List<Person> allPerson = personService.findAllPerson();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("code", 0);
