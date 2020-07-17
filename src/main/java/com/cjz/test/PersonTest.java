@@ -46,4 +46,17 @@ public class PersonTest {
         }
     }
 
+    @Test
+    public void doUpdatePerson(){
+        Person person = new Person();
+        person.setId(1);
+        person.setUsername("cjz");
+        person.setSex(1);
+        person.setCity("广州");
+        person.setBirthday("2020-01-01");
+        person.setTel("12345678901");
+        boolean b = personService.modifyPerson(person);
+        System.out.println(b);
+    }
+
 }

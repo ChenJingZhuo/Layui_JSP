@@ -350,15 +350,11 @@
     }
 
     function isUsernameExist() {
-        var username = $("#register-username").val(),
-            password = $("#register-password").val();
+        var username = $("#register-username").val();
         $.ajax({
             url: "${pageContext.request.contextPath}/isUsernameExist",
             type: "POST",
-            data: {
-                "username": username,
-                "password": password
-            },
+            data: {"username": username},
             success: function (result) {
                 if (result.code == 100){
                     alert("该用户名已存在！");

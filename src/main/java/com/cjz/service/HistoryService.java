@@ -32,10 +32,10 @@ public interface HistoryService {
 
     /**
      * 删除一条历史记录
-     * @param id
+     * @param username
      * @return
      */
-    int deleteOneHistory(String id);
+    int deleteOneHistory(String username);
 
     /**
      * 通过用户名查询一条历史信息

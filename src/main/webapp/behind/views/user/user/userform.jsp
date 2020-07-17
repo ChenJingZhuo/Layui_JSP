@@ -15,7 +15,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">用户名</label>
       <div class="layui-input-inline">
-        <input type="text" name="username" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        <input id="addPerson" type="text" name="username" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
@@ -35,7 +35,6 @@
       <label class="layui-form-label">城市</label>
       <div class="layui-input-inline">
         <select id="city" name="city" lay-verify="required">
-          <option value=""></option>
           <option value="北京" selected>北京</option>
           <option value="上海">上海</option>
           <option value="广州">广州</option>
@@ -61,6 +60,8 @@
     </div>
   </div>
 
+  <input type="text" hidden id="firstName">
+
   <script src="../../../layuiadmin/layui/layui.js"></script>  
   <script>
   layui.config({
@@ -81,7 +82,33 @@
       ,closeStop: '#birthday'
     });
 
+  });
+
+  layui.use(['layer', 'jquery'],function () {
+    var layer = layui.layer
+    , $ = layui.jquery;
+
+    $("#addPerson").blur(function(){
+      var firstName = $("#firstName").val()
+      var username = $("#addPerson").val();
+      if (username == firstName) return;
+      $.ajax({
+        url: "${pageContext.request.contextPath}/isUsernameExist",
+        type: "POST",
+        data: {"username": username},
+        success: function (result) {
+          if (result.code == 100){
+            layer.tips("该用户名已存在！", $("#addPerson"));
+            $("#addPerson").val("");
+          }
+        }
+      });
+    });
+
   })
+
+
+
   </script>
 </body>
 </html>

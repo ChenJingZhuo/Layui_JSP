@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,25 +27,25 @@ public class PersonController {
     @Autowired
     private HistoryService historyService;
 
-    //查找所有部门信息
+    private static final DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss");
+
+    //查找所有用户信息
     @RequestMapping("/persons")
     public String doQueryAllPerson(@RequestParam(value = "pn", defaultValue = "1") Integer pn, Model model) throws Exception {
-        //这不是一个分页查询，引入PageHelper分页插件，在查询之前只需要调用，传入页码，以及每页的大小
         PageHelper.startPage(pn, 5);
-        //startPage后面紧跟的这个查询是一个分页查询
         List<Person> depts = personService.findAllPerson();
-        //使用PageInfo 包装查询后的结果，只需要将pageInfo交给页面就行
-        //pageInfo封装了详细的分页信息，包括有我们查询出来的数据，传入连续显示的页数,分页连续显示的页数
         PageInfo page = new PageInfo(depts, 5);
         model.addAttribute("pageInfo", page);
-        return "/admin/admin-dept.jsp";
+        return "redirect:/behind/views/user/user/list.jsp";
     }
 
     @RequestMapping(value = "/person", method = RequestMethod.POST)
     @ResponseBody
     public Msg doAddPerson(Person person) throws Exception {
+        System.out.println("添加用户："+person);
         boolean flag = personService.insertPerson(person);
         if (flag) {
+            historyService.insertHistory(new History(person.getUsername(),dtf.format(LocalDateTime.now())));
             return Msg.success();
         } else {
             return Msg.error();
@@ -55,14 +57,16 @@ public class PersonController {
     @RequestMapping(value = "/person/{ids}", method = RequestMethod.DELETE)
     @ResponseBody
     public Msg doDeletePersonAll(@PathVariable("ids") String ids) throws Exception {
-        //System.out.println("****" + ids);
+        System.out.println("ids****" + ids);
         boolean flag = false;
         if (ids.contains(",")) {//执行的是批量删除
             String[] str_ids = ids.split(",");
             //组装id的集合
             for (String str : str_ids) {
-                //  System.out.println("****"+Integer.parseInt(str));
+                System.out.println("****批量删除****"+Integer.parseInt(str));
+                Person person = personService.findPersonById(Integer.parseInt(str));
                 flag = personService.removePerson(Integer.parseInt(str));
+                historyService.deleteOneHistory(person.getUsername());
             }
             if (flag) {
                 return Msg.success();
@@ -70,9 +74,10 @@ public class PersonController {
                 return Msg.error();
             }
         } else { //执行单个删除
+            Person person = personService.findPersonById(Integer.parseInt(ids));
             flag = personService.removePerson(Integer.parseInt(ids));
             if (flag) {
-                historyService.deleteOneHistory(ids);
+                historyService.deleteOneHistory(person.getUsername());
                 return Msg.success();
             } else {
                 return Msg.error();
@@ -92,10 +97,10 @@ public class PersonController {
     }
 
     //修改部门
-    @RequestMapping(value = "person",method = RequestMethod.PUT)
+    @RequestMapping(value = "/person",method = RequestMethod.PUT)
     @ResponseBody
     public Msg doUpdatePerson(Person person) throws Exception{
-       /// System.out.println(dept);
+        System.out.println("编辑用户："+person);
         boolean flag=personService.modifyPerson(person);
         if (flag) {
             return Msg.success();
@@ -108,13 +113,12 @@ public class PersonController {
     @ResponseBody
     public Object selectPersonByParam(String username){
         List<Person> people = personService.selectPersonByParam(username);
-        /*Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("code", 0);
         map.put("msg", "");
         map.put("count", people.size());
         map.put("data", people);
-        return map;*/
-        return people;
+        return map;
     }
 
     @RequestMapping("/findPersonByNameAndPwd")

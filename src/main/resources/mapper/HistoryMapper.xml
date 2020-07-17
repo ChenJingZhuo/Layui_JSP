@@ -8,7 +8,7 @@
         update history set lasttime=#{lasttime},loginNum=#{loginNum} where username=#{username}
     </update>
     <delete id="deleteOneHistory">
-        delete from history where id=#{id}
+        delete from history where username=#{username}
     </delete>
 
     <select id="findAllHistory" resultType="History">

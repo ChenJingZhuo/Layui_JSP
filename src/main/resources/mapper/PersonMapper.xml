@@ -8,13 +8,14 @@
     select * from person
 </select>
     <insert id="insertPerson">
-        insert into person(username, password)values(#{username},#{password})
+        insert into person(username, password, sex, city, birthday, tel)
+        values(#{username},#{password},#{sex},#{city},#{birthday},#{tel})
 </insert>
     <select id="selectByPersonId" resultType="Person">
-        select * from person where personId=#{xxx}
+        select * from person where id=#{id}
 </select>
     <update id="updatePerson">
-        update person set personNo=#{personNo},personName=#{personName},enabled=#{enabled} where personId=#{personId}
+        update person set username=#{username},sex=#{sex},city=#{city},birthday=#{birthday},tel=#{tel} where id=#{id}
 </update>
     <update id="updatePersonPwd">
         update person set password=#{param1} where username=#{param2}
