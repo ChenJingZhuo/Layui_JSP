@@ -41,8 +41,8 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public int deleteOneHistory(History history) {
-        return historyMapper.deleteOneHistory(history);
+    public int deleteOneHistory(String id) {
+        return historyMapper.deleteOneHistory(id);
     }
 
     @Override

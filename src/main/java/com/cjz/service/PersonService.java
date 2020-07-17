@@ -46,4 +46,11 @@ public interface PersonService {
      */
     int updatePersonPwd(String password, String username);
 
+    /**
+     * 模精查询
+     * @param param
+     * @return
+     */
+    List<Person> selectPersonByParam(String param);
+
 }

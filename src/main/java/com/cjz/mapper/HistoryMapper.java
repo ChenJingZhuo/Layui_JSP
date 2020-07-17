@@ -27,10 +27,10 @@ public interface HistoryMapper {
 
     /**
      * 删除一条历史记录
-     * @param history
+     * @param id
      * @return
      */
-    int deleteOneHistory(History history);
+    int deleteOneHistory(String id);
 
     /**
      * 通过用户名查询一条历史信息

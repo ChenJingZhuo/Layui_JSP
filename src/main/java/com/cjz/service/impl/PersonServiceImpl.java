@@ -73,4 +73,9 @@ public class PersonServiceImpl implements PersonService {
     public int updatePersonPwd(String password, String username) {
         return personMapper.updatePersonPwd(password, username);
     }
+
+    @Override
+    public List<Person> selectPersonByParam(String param) {
+        return personMapper.selectPersonByParam(param);
+    }
 }

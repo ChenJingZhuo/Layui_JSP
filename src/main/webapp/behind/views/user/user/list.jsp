@@ -18,25 +18,9 @@
         <div class="layui-form layui-card-header layuiadmin-card-header-auto">
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">ID</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="id" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
                     <label class="layui-form-label">用户名</label>
                     <div class="layui-input-block">
                         <input type="text" name="username" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">性别</label>
-                    <div class="layui-input-block">
-                        <select name="sex">
-                            <option value="0">不限</option>
-                            <option value="1">男</option>
-                            <option value="2">女</option>
-                        </select>
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -54,10 +38,10 @@
             </div>
 
 <%--            <table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>--%>
-            <table class="layui-hide" id="test"></table>
+            <table class="layui-hide" id="test" lay-filter="test"></table>
             <script type="text/html" id="barDemo">
-                <a class="layui-btn layui-btn-normal layui-btn-xs" onclick="edit()"><i
-                        class="layui-icon layui-icon-edit"></i>编辑</a>
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i
+                        class="layui-icon layui-icon-edit" ></i>编辑</a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
                         class="layui-icon layui-icon-delete"></i>删除</a>
             </script>
@@ -73,63 +57,6 @@
 
 <script src="../../../layuiadmin/layui/layui.js"></script>
 <script>
-    /*layui.config({
-        base: '../../../layuiadmin/' //静态资源所在路径
-    }).extend({
-        index: 'lib/index' //主入口模块
-    }).use(['index', 'useradmin', 'table'], function () {
-        var $ = layui.$
-            , form = layui.form
-            , table = layui.table;
-
-        //监听搜索
-        form.on('submit(LAY-user-front-search)', function (data) {
-            var field = data.field;
-
-            //执行重载
-            table.reload('LAY-user-manage', {
-                where: field
-            });
-        });
-
-        //事件
-        var active = {
-            batchdel: function () {
-                var checkStatus = table.checkStatus('LAY-user-manage')
-                    , checkData = checkStatus.data; //得到选中的数据
-
-                if (checkData.length === 0) {
-                    return layer.msg('请选择数据');
-                }
-
-                layer.prompt({
-                    formType: 1
-                    , title: '敏感操作，请验证口令'
-                }, function (value, index) {
-                    layer.close(index);
-
-                    layer.confirm('确定删除吗？', function (index) {
-
-                        //执行 Ajax 后重载
-                        /!*
-                        admin.req({
-                          url: 'xxx'
-                          //,……
-                        });
-                        *!/
-                        table.reload('LAY-user-manage');
-                        layer.msg('已删除');
-                    });
-                });
-            }
-        };
-
-        $('.layui-btn.layuiadmin-btn-useradmin').on('click', function () {
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-    });*/
-
     layui.use(['jquery', 'layer', 'form', 'table'], function () {
         var $ = layui.jquery
         ,layer = layui.layer
@@ -141,48 +68,43 @@
         form.on('submit(LAY-user-front-search)', function (data) {
             var field = data.field;
 
-            //执行重载
-            table.reload('LAY-user-manage', {
-                where: field
-            });
-        });
+            // alert(field.username)
 
-        //事件
-        var active = {
-            batchdel: function () {
-                var checkStatus = table.checkStatus('LAY-user-manage')
-                    , checkData = checkStatus.data; //得到选中的数据
-
-                if (checkData.length === 0) {
-                    return layer.msg('请选择数据');
-                }
-
-                layer.prompt({
-                    formType: 1
-                    , title: '敏感操作，请验证口令'
-                }, function (value, index) {
-                    layer.close(index);
-
-                    layer.confirm('确定删除吗？', function (index) {
-
-                        //执行 Ajax 后重载
-                        /*
-                        admin.req({
-                          url: 'xxx'
-                          //,……
-                        });
-                        */
-                        table.reload('LAY-user-manage');
-                        layer.msg('已删除');
-                    });
-                });
+            if (field.username == ''){
+                layer.msg('请输入搜索数据');
+                return;
             }
-        };
 
-        $('.layui-btn.layuiadmin-btn-useradmin').on('click', function () {
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
+            //执行重载
+            table.reload('test', {
+                <%--url: '${pageContext.request.contextPath}/selectPersonByParam'--%>
+                // ,method: 'POST',
+                where: { //设定异步数据接口的额外参数，任意设
+                    'username': field.username
+                    // ,bbb: 'yyy'
+                    //…
+                }
+                ,page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            },'data'); //只重载数据
+
+            //执行重载
+            /*table.reload('test', {
+                where: {
+                    pageSize: 10,
+                    currentPage:1,
+                    username: field.username,//逗号隔开
+                    // param2: param2.val()
+                }
+            });*/
+
+            //执行重载
+            /*table.reload('LAY-user-manage', {
+                where: field
+            });*/
         });
+
 
         table.render({
             elem: '#test'
@@ -226,6 +148,14 @@
 
                         //提交 Ajax 成功后，静态更新表格中的数据
                         //$.ajax({});
+                        $.ajax({
+                            url: '${pageContext.request.contextPath}/person',
+                            type: 'POST',
+                            data: field,
+                            success: function (result) {
+
+                            }
+                        })
                         table.reload('LAY-user-front-submit'); //数据刷新
                         layer.close(index); //关闭弹层
                     });
@@ -236,33 +166,74 @@
         });
 
 
-        window.edit = function(){
-            layer.open({
-                type: 2
-                , title: '编辑用户'
-                , content: 'userform.jsp'
-                , maxmin: true
-                , area: ['500px', '450px']
-                , btn: ['确定', '取消']
-                , yes: function (index, layero) {
-                    var iframeWindow = window['layui-layer-iframe' + index]
-                        , submitID = 'LAY-user-front-submit'
-                        , submit = layero.find('iframe').contents().find('#' + submitID);
+        //监听工具条
+        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
-                    //监听提交
-                    iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
-                        var field = data.field; //获取提交的字段
-
-                        //提交 Ajax 成功后，静态更新表格中的数据
-                        //$.ajax({});
-                        table.reload('LAY-user-front-submit'); //数据刷新
-                        layer.close(index); //关闭弹层
+            if(layEvent === 'detail'){ //查看
+                //do somehing
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('您确定要删除【'+data.username+'】吗？',
+                    {
+                        icon: 3
+                        // ,time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(index){
+                        //向服务端发送删除指令
+                        $.ajax({
+                            url: "${pageContext.request.contextPath}/person/" + data.id,
+                            type: "DELETE",
+                            success: function (result) {
+                                if (result.code = 100) {
+                                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                    layer.msg("删除成功", {icon: 1});
+                                } else {
+                                    layer.msg("删除失败", {icon: 2});
+                                }
+                            }
+                        });
+                        layer.close(index);
                     });
+            } else if(layEvent === 'edit'){ //编辑
+                //do something
 
-                    submit.trigger('click');
-                }
-            });
-        }
+                //同步更新缓存对应的值
+                /*obj.update({
+                    username: '123'
+                    ,title: 'xxx'
+                });*/
+                layer.open({
+                    type: 2
+                    , title: '编辑用户'
+                    , content: 'userform.jsp'
+                    , maxmin: true
+                    , area: ['500px', '450px']
+                    , btn: ['确定', '取消']
+                    , yes: function (index, layero) {
+                        var iframeWindow = window['layui-layer-iframe' + index]
+                            , submitID = 'LAY-user-front-submit'
+                            , submit = layero.find('iframe').contents().find('#' + submitID);
+
+                        //监听提交
+                        iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
+                            var field = data.field; //获取提交的字段
+
+                            //提交 Ajax 成功后，静态更新表格中的数据
+                            //$.ajax({});
+                            table.reload('LAY-user-front-submit', function () {
+
+                            }); //数据刷新
+                            layer.close(index); //关闭弹层
+                        });
+
+                        submit.trigger('click');
+                    }
+                });
+            } else if(layEvent === 'LAYTABLE_TIPS'){
+                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            }
+        });
 
     })
 

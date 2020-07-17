@@ -1,7 +1,9 @@
 package com.cjz.controller;
 
+import com.cjz.bean.History;
 import com.cjz.bean.Msg;
 import com.cjz.bean.Person;
+import com.cjz.service.HistoryService;
 import com.cjz.service.PersonService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -20,6 +22,9 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
+    @Autowired
+    private HistoryService historyService;
+
     //查找所有部门信息
     @RequestMapping("/persons")
     public String doQueryAllPerson(@RequestParam(value = "pn", defaultValue = "1") Integer pn, Model model) throws Exception {
@@ -34,12 +39,10 @@ public class PersonController {
         return "/admin/admin-dept.jsp";
     }
 
-    //添加部门
     @RequestMapping(value = "/person", method = RequestMethod.POST)
     @ResponseBody
-    public Msg doAddPerson(Person dept) throws Exception {
-        //System.out.println(dept);
-        boolean flag = personService.insertPerson(dept);
+    public Msg doAddPerson(Person person) throws Exception {
+        boolean flag = personService.insertPerson(person);
         if (flag) {
             return Msg.success();
         } else {
@@ -69,6 +72,7 @@ public class PersonController {
         } else { //执行单个删除
             flag = personService.removePerson(Integer.parseInt(ids));
             if (flag) {
+                historyService.deleteOneHistory(ids);
                 return Msg.success();
             } else {
                 return Msg.error();
@@ -90,14 +94,27 @@ public class PersonController {
     //修改部门
     @RequestMapping(value = "person",method = RequestMethod.PUT)
     @ResponseBody
-    public Msg doUpdatePerson(Person dept)throws Exception{
+    public Msg doUpdatePerson(Person person) throws Exception{
        /// System.out.println(dept);
-        boolean flag=personService.modifyPerson(dept);
+        boolean flag=personService.modifyPerson(person);
         if (flag) {
             return Msg.success();
         } else {
             return Msg.error();
         }
+    }
+
+    @RequestMapping("/selectPersonByParam")
+    @ResponseBody
+    public Object selectPersonByParam(String username){
+        List<Person> people = personService.selectPersonByParam(username);
+        /*Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("count", people.size());
+        map.put("data", people);
+        return map;*/
+        return people;
     }
 
     @RequestMapping("/findPersonByNameAndPwd")

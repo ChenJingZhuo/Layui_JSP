@@ -22,8 +22,9 @@
     <delete id="deletePerson">
         delete from person where id=#{xxx}
 </delete>
+
     <select id="selectPersonByParam" resultType="Person">
-        select * from person where username=#{xxx}
+        select * from person where username like concat('%', #{param}, '%')
 </select>
 
     <select id="findPersonByNameAndPwd" resultType="Person">

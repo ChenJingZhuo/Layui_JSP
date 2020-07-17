@@ -63,7 +63,7 @@ public class LoginController {
         boolean flag = personService.insertPerson(new Person(username, password));
         if (flag){
             request.getSession().setAttribute("login_name",username);
-            historyService.insertHistory(new History(username, password));
+            historyService.insertHistory(new History(username, dtf.format(LocalDateTime.now())));
             return Msg.success();
         } else {
             return Msg.error();

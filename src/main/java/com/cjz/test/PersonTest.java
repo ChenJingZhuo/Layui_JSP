@@ -38,4 +38,12 @@ public class PersonTest {
         System.out.println(cjz);
     }
 
+    @Test
+    public void selectPersonByParam(){
+        List<Person> cj = personService.selectPersonByParam("c");
+        for (Person person : cj) {
+            System.out.println(person);
+        }
+    }
+
 }
