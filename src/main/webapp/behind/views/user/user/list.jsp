@@ -75,7 +75,7 @@
 
 <script src="../../../layuiadmin/layui/layui.js"></script>
 <script>
-    layui.config({
+    /*layui.config({
         base: '../../../layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
@@ -92,7 +92,7 @@
             table.reload('LAY-user-manage', {
                 where: field
             });
-        });
+        });*/
 
         //事件
         var active = {

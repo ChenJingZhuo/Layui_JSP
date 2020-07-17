@@ -18,13 +18,12 @@
         <div class="layui-card">
           <div class="layui-card-header">修改密码</div>
           <div class="layui-card-body" pad15>
-            
-            <div class="layui-form" lay-filter="" id="pwd-form">
+            <form class="layui-form" action="">
               <div class="layui-form-item">
                 <label class="layui-form-label">当前密码</label>
                 <div class="layui-input-inline">
                   <input id="oldPassword" type="password" name="oldPassword" lay-verify="required" lay-verType="tips" class="layui-input"
-                  onblur="findPersonByNameAndPwd()">
+                         onblur="findPersonByNameAndPwd()">
                 </div>
               </div>
               <div class="layui-form-item">
@@ -42,10 +41,13 @@
               </div>
               <div class="layui-form-item">
                 <div class="layui-input-block">
-                  <button class="layui-btn" lay-submit lay-filter="setmypass">确认修改</button>
+                  <button class="layui-btn" lay-submit lay-filter="savePwd">确认修改</button>
                 </div>
               </div>
-            </div>
+            </form>
+            <%--<div class="layui-form" lay-filter="" id="pwd-form">
+
+            </div>--%>
             
           </div>
         </div>
@@ -86,19 +88,19 @@
     }
 
     //监听提交
-    form.on('submit(setmypass)', function(data){
+    form.on('submit(savePwd)', function(data){
       // layer.msg(JSON.stringify(data.field));
       $.ajax({
         url: "${pageContext.request.contextPath}/updatePersonPwd",
         type: "POST",
         data: {
           "username": "${username}",
-          "password": $("#password").val()
+          "password": $("#LAY_password").val()
         },
         success: function (result) {
           if (result.code == 100){
             layer.msg("修改密码成功", {icon: 1});
-            $("#pwd-form").reset();
+            parent.layui.admin.events.closeThisTabs();
             layui.form.render();
           } else {
             layer.msg("修改密码失败", {icon: 2})

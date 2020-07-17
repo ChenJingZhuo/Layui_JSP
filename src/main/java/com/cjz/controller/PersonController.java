@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class PersonController {
@@ -119,6 +121,18 @@ public class PersonController {
         } else {
             return Msg.error();
         }
+    }
+
+    @RequestMapping("/selectPersonAll")
+    @ResponseBody
+    public Object selectPersonAll(){
+        List<Person> allPerson = personService.findAllPerson();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("count", allPerson.size());
+        map.put("data", allPerson);
+        return map;
     }
 
 }

@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cjz.mapper.HistoryMapper">
     <insert id="insertHistory">
-        insert person(username,addtime) values(#{username}, #{addtime})
+        insert into history(username,addtime) values(#{username}, #{addtime})
     </insert>
     <update id="updateHistory">
-        update person set lasttime=#{lasttime},loginNum=#{loginNum} where username=#{username}
+        update history set lasttime=#{lasttime},loginNum=#{loginNum} where username=#{username}
     </update>
     <delete id="deleteOneHistory">
         delete from history where id=#{id}
