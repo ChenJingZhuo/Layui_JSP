@@ -5,6 +5,7 @@ import com.cjz.bean.Msg;
 import com.cjz.bean.Person;
 import com.cjz.service.HistoryService;
 import com.cjz.service.PersonService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,17 @@ public class PersonController {
 
     //查找所有用户信息
     @RequestMapping("/persons")
-    public String doQueryAllPerson(@RequestParam(value = "pn", defaultValue = "1") Integer pn, Model model) throws Exception {
-        PageHelper.startPage(pn, 5);
-        List<Person> depts = personService.findAllPerson();
-        PageInfo page = new PageInfo(depts, 5);
-        model.addAttribute("pageInfo", page);
-        return "redirect:/behind/views/user/user/list.jsp";
+    @ResponseBody
+    public Object doQueryAllPerson(@RequestParam("page") Integer pageNum, @RequestParam("limit") Integer pageSize) throws Exception {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Person> persons = personService.findAllPerson();
+        PageInfo page = new PageInfo(persons);
+        Map<String, Object> map = new HashMap<>();
+        map.put("code",0);
+        map.put("msg","");
+        map.put("count",persons.size());
+        map.put("data",persons);
+        return map;
     }
 
     @RequestMapping(value = "/person", method = RequestMethod.POST)
